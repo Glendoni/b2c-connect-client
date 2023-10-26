@@ -9,6 +9,11 @@ jobs:
     steps:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
+      - restore_cache:
+          keys:
+            - v2-dependencies-{{ checksum "Gemfile.lock" }}
+            - v2-dependencies-
+            - browser-tools/install-browser-tools
       - run:
           command: |
             google-chrome --version
