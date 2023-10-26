@@ -10,7 +10,6 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v2-dependencies-{{ checksum "Gemfile.lock" }}
             - v2-dependencies-
             - browser-tools/install-browser-tools
       - browser-tools/install-chrome
