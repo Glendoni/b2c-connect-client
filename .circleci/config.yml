@@ -1,30 +1,17 @@
-version: 2.1
-orbs:
-  browser-tools: circleci/browser-tools@1.4.4
+version: 2
 jobs:
   build:
-    working_directory: ~/ng-project
+    working_directory: ~/my-project
     docker:
-      - image: cimg/node:16.13.1-browsers
+      - image: circleci/node:8-browsers
     steps:
       - checkout
       - restore_cache:
-          keys:
-            - v2-dependencies-
-            - browser-tools/install-browser-tools
-      - browser-tools/install-chrome
-      - browser-tools/install-chromedriver
-      - run:
-          command: |
-            google-chrome --version
-            chromedriver --version
-          name: Check install
-      - checkout
-      - restore_cache:
-          key: ng-project-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
       - run: npm install
       - save_cache:
-          key: ng-project-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - "node_modules"
-      - run: npm run test
+      - run: xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
+      - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
