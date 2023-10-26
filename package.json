@@ -1,6 +1,9 @@
 {
   "name": "angular.io-example",
   "version": "0.0.0",
+  "engines": {
+    "node": "21.1.0"
+  },
   "description": "Example project from an angular.io guide.",
   "license": "MIT",
   "scripts": {
